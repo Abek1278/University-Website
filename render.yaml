@@ -9,7 +9,3 @@ services:
     envVars:
       - key: NODE_ENV
         value: "production"
-      - key: MONGO_URI
-        value: ""
-      - key: JWT_SECRET
-        value: ""
