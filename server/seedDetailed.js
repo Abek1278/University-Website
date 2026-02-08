@@ -34,7 +34,10 @@ const detailedSubjects = [
 
 const upsertSubjects = async () => {
   try {
-    const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/academic-classroom';
+    const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI;
+    if (!mongoUri) {
+      console.warn('Warning: MONGO_URI is not set. Set process.env.MONGO_URI to connect to the database.');
+    }
     await mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,

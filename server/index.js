@@ -21,13 +21,16 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: process.env.CLIENT_URL || '*',
     methods: ['GET', 'POST']
   }
 });
 
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  credentials: true
+}));
 app.use(compression());
 app.use(morgan('dev'));
 app.use(express.json());
@@ -35,7 +38,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/uploads', express.static('uploads'));
 
-const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/academic-classroom';
+const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI;
+
+if (!mongoUri) {
+  console.warn('Warning: MONGO_URI is not set. Set process.env.MONGO_URI in production.');
+}
 
 mongoose.connect(mongoUri, {
   useNewUrlParser: true,
