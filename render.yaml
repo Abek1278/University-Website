@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: ltce-backend
+    env: node
+    plan: free
+    root: server
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    envVars:
+      - key: NODE_ENV
+        value: "production"
+      - key: MONGO_URI
+        value: ""
+      - key: JWT_SECRET
+        value: ""
